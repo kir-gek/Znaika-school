@@ -1,88 +1,257 @@
+import { motion } from "framer-motion";
 import abroad from "../../assets/Зв рцубежом.jpg";
 import college from "../../assets/КООЛЕДЖ ФИН.png";
-import letka from "../../assets/ЛЕТКА ФИН.jpg"
+import letka from "../../assets/ЛЕТКА ФИН.jpg";
+
+const fadeIn = {
+  hidden: { opacity: 0, y: 50 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.8 } }
+};
+
+const staggerContainer = {
+  visible: {
+    transition: {
+      staggerChildren: 0.2
+    }
+  }
+};
+
 export const ForWhom = () => {
   return (
-    <section id="for-whom" className="py-12 bg-white">
-      <div className="container mx-auto px-4">
-        <h2 className="text-3xl font-bold text-center mb-8">
-          Зачем вам наша школа?
-        </h2>
+    <section id="for-whom" className="py-20 bg-gradient-to-b from-gray-50 to-white">
+      <div className="container mx-auto px-4 max-w-6xl">
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-100px" }}
+          variants={staggerContainer}
+          className="text-center mb-16"
+        >
+          <motion.h2 
+            variants={fadeIn}
+            className="text-4xl md:text-5xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-cyan-400"
+          >
+            Для кого наша школа?
+          </motion.h2>
+          <motion.p 
+            variants={fadeIn}
+            className="text-xl text-gray-600 max-w-3xl mx-auto"
+          >
+            Мы помогаем достигать образовательных целей, независимо от вашей текущей ситуации
+          </motion.p>
+        </motion.div>
 
-
-
-
-        <div className="flex flex-col md:flex-row items-center">
-          <div className="w-full md:w-1/2 p-4">
-            <h3 className="text-2xl font-bold mb-4">
-              Желаете поступить в учебное заведение за рубежом
-            </h3>
-            <ul className="list-disc pl-5">
-              <li>
-                Мы поможем вам повысить успеваемость, чтобы соответствовать
-                требованиям иностранных ВУЗов;
-              </li>
-              <li>Вы сможете закончить 10-11 класс за один год;</li>
-              <li>Предлагаем вам обучение онлайн из любой точки мира.</li>
-            </ul>
+        {/* Блок 1 - За рубеж */}
+        <motion.div 
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-100px" }}
+          variants={staggerContainer}
+          className="flex flex-col lg:flex-row items-center mb-28 bg-white rounded-3xl overflow-hidden shadow-2xl"
+        >
+          <div className="w-full lg:w-1/2 p-8 lg:p-12">
+            <motion.h3 
+              variants={fadeIn}
+              className="text-3xl font-bold mb-6 text-gray-800"
+            >
+              <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-teal-400">
+                Поступление заграницу
+              </span>
+            </motion.h3>
+            <motion.ul 
+              variants={staggerContainer}
+              className="space-y-4"
+            >
+              <motion.li 
+                variants={fadeIn}
+                className="flex items-start"
+              >
+                <div className="flex-shrink-0 bg-blue-100 p-2 rounded-full mr-4">
+                  <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
+                  </svg>
+                </div>
+                <span className="text-lg text-gray-700">
+                  Повышение успеваемости для соответствия требованиям иностранных ВУЗов
+                </span>
+              </motion.li>
+              <motion.li 
+                variants={fadeIn}
+                className="flex items-start"
+              >
+                <div className="flex-shrink-0 bg-blue-100 p-2 rounded-full mr-4">
+                  <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
+                  </svg>
+                </div>
+                <span className="text-lg text-gray-700">
+                  Завершение 10-11 класса за один год в ускоренном формате
+                </span>
+              </motion.li>
+              <motion.li 
+                variants={fadeIn}
+                className="flex items-start"
+              >
+                <div className="flex-shrink-0 bg-blue-100 p-2 rounded-full mr-4">
+                  <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
+                  </svg>
+                </div>
+                <span className="text-lg text-gray-700">
+                  Онлайн-обучение из любой точки мира с гибким графиком
+                </span>
+              </motion.li>
+            </motion.ul>
           </div>
-          <div className="w-full md:w-1/2 p-4">
-            <img src={abroad} alt="Students" className="w-full rounded" />
+          <motion.div 
+            variants={fadeIn}
+            className="w-full lg:w-1/2 h-96 lg:h-auto relative overflow-hidden"
+          >
+            <img 
+              src={abroad} 
+              alt="Обучение за рубежом" 
+              className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
+          </motion.div>
+        </motion.div>
+
+        {/* Блок 2 - Колледж РФ */}
+        <motion.div 
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-100px" }}
+          variants={staggerContainer}
+          className="flex flex-col lg:flex-row-reverse items-center mb-28 bg-white rounded-3xl overflow-hidden shadow-2xl"
+        >
+          <div className="w-full lg:w-1/2 p-8 lg:p-12">
+            <motion.h3 
+              variants={fadeIn}
+              className="text-3xl font-bold mb-6 text-gray-800"
+            >
+              <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-500 to-pink-400">
+                Поступление в колледж РФ
+              </span>
+            </motion.h3>
+            <motion.ul 
+              variants={staggerContainer}
+              className="space-y-4"
+            >
+              <motion.li 
+                variants={fadeIn}
+                className="flex items-start"
+              >
+                <div className="flex-shrink-0 bg-purple-100 p-2 rounded-full mr-4">
+                  <svg className="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
+                  </svg>
+                </div>
+                <span className="text-lg text-gray-700">
+                  Коррекция оценок для поступления в престижные колледжи России
+                </span>
+              </motion.li>
+              <motion.li 
+                variants={fadeIn}
+                className="flex items-start"
+              >
+                <div className="flex-shrink-0 bg-purple-100 p-2 rounded-full mr-4">
+                  <svg className="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
+                  </svg>
+                </div>
+                <span className="text-lg text-gray-700">
+                  Альтернатива для тех, кто не может посещать обычную школу
+                </span>
+              </motion.li>
+            </motion.ul>
           </div>
-        </div>
+          <motion.div 
+            variants={fadeIn}
+            className="w-full lg:w-1/2 h-96 lg:h-auto relative overflow-hidden"
+          >
+            <img 
+              src={college} 
+              alt="Поступление в колледж" 
+              className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
+          </motion.div>
+        </motion.div>
 
-
-
-        <div className="flex flex-col md:flex-row items-center">
-          <div className="w-full md:w-1/2 p-4">
-            <img src={college} alt="Students" className="w-full rounded" />
+        {/* Блок 3 - Летное училище */}
+        <motion.div 
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-100px" }}
+          variants={staggerContainer}
+          className="flex flex-col lg:flex-row items-center bg-white rounded-3xl overflow-hidden shadow-2xl"
+        >
+          <div className="w-full lg:w-1/2 p-8 lg:p-12">
+            <motion.h3 
+              variants={fadeIn}
+              className="text-3xl font-bold mb-6 text-gray-800"
+            >
+              <span className="bg-clip-text text-transparent bg-gradient-to-r from-amber-500 to-orange-400">
+                Летные училища
+              </span>
+            </motion.h3>
+            <motion.ul 
+              variants={staggerContainer}
+              className="space-y-4"
+            >
+              <motion.li 
+                variants={fadeIn}
+                className="flex items-start"
+              >
+                <div className="flex-shrink-0 bg-amber-100 p-2 rounded-full mr-4">
+                  <svg className="w-6 h-6 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
+                  </svg>
+                </div>
+                <span className="text-lg text-gray-700">
+                  Подготовка аттестата с высокими баллами для летных училищ
+                </span>
+              </motion.li>
+              <motion.li 
+                variants={fadeIn}
+                className="flex items-start"
+              >
+                <div className="flex-shrink-0 bg-amber-100 p-2 rounded-full mr-4">
+                  <svg className="w-6 h-6 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
+                  </svg>
+                </div>
+                <span className="text-lg text-gray-700">
+                  Возможность получить аттестат с отличием и золотую медаль
+                </span>
+              </motion.li>
+              <motion.li 
+                variants={fadeIn}
+                className="flex items-start"
+              >
+                <div className="flex-shrink-0 bg-amber-100 p-2 rounded-full mr-4">
+                  <svg className="w-6 h-6 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
+                  </svg>
+                </div>
+                <span className="text-lg text-gray-700">
+                  Путь к мечте управлять Boeing или Airbus начинается здесь
+                </span>
+              </motion.li>
+            </motion.ul>
           </div>
-
-          <div className="w-full md:w-1/2 p-4">
-            <h3 className="text-2xl font-bold mb-4">
-              Недостаточно среднего балла для поступления в ВУЗ или колледж РФ
-            </h3>
-            <ul className="list-disc pl-5">
-              <li>
-                Вместе с нами вы сможете подтянуть оценки и поступить в желаемый
-                колледж в России;
-              </li>
-              <li>
-                если у вас нет возможности посещать учебное заведение - наша
-                школа для вас
-              </li>
-            </ul>
-          </div>
-        </div>
-
-
-
-
-        <div className="flex flex-col md:flex-row items-center">
-          <div className="w-full md:w-1/2 p-4">
-            <h3 className="text-2xl font-bold mb-4">
-              Хотите поступить в летное училище
-            </h3>
-            <ul className="list-disc pl-5">
-              <li>
-                Поможем повысить успеваемость в аттестате, чтобы соответствовать требованиям летных училищ;
-              </li>
-              <li>с нами вы сможете получить аттестат с отличием и золотую медаль;</li>
-              <li>мечтаете управлять Boeing или Airbus - наша школа для вас!</li>
-            </ul>
-          </div>
-          <div className="w-full md:w-1/2 p-4">
-            <img src={letka} alt="Students" className="w-full rounded" />
-          </div>
-        </div>
-
-
-
-
-
-
-
-
+          <motion.div 
+            variants={fadeIn}
+            className="w-full lg:w-1/2 h-96 lg:h-auto relative overflow-hidden"
+          >
+            <img 
+              src={letka} 
+              alt="Летное училище" 
+              className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
+          </motion.div>
+        </motion.div>
       </div>
     </section>
   );
