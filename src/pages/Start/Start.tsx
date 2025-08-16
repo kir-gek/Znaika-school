@@ -9,10 +9,13 @@ import { PricingPlans } from "../../components/4-6/PricingPlans";
 import { SuccessStories } from "../../components/4-6/SuccessStories";
 import { AccreditationSection } from "../../components/10-12/AccreditationSection";
 import { ContactSection } from "../../components/10-12/ContactsSection";
+import { ScrollProgress } from "../../components/ScrollProgress";
 
 export const Start = () => {
   return (
     <>
+<ScrollProgress />
+
       <Navbar />
       <Banner />
       <ForWhom />

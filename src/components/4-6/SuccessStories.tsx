@@ -5,6 +5,7 @@ import Oxana from "../../assets/successStories/Оксана.jpg";
 import Kristina from "../../assets/successStories/Кристина.jpg";
 import Damir from "../../assets/successStories/Дамир.jpg";
 import Evgenia from "../../assets/successStories/Евгения.jpg";
+import { ChevronLeft, ChevronRight } from "react-feather";
 
 const stories = [
   {
@@ -12,7 +13,7 @@ const stories = [
     name: "Пилот Валерий",
     role: "Выпускник Сасовского летного училища",
     description:
-      "Благодаря школе ZNAIKA я смог улучшить свои оценки и поступить в Сасовское летное училище. Сейчас работаю вторым пилотом в крупной авиакомпании. Спасибо, Школа ZNAIKA!",
+      "Благодаря школе ZNAIKA я смог улучшить свои оценки и поступить в Сасовское летное училища. Сейчас работаю вторым пилотом в крупной авиакомпании. Спасибо, Школа ZNAIKA!",
     image: Valeriy,
   },
   {
@@ -44,7 +45,7 @@ const stories = [
     name: "Евгения",
     role: "Учится в Бугуруслане",
     description:
-      "В школе я училась на одни тройки, не придавала значения учебе. Выросла и поняла, как важен аттестат для поступления. Znaika помогла мне сделать новый аттестат с отличием, и теперь я учусб в БЛУГА!",
+      "В школе я училась на одни тройки, не придавала значения учебе. Выросла и поняла, как важен аттестат для поступления. Znaika помогла мне сделать новый аттестат с отличием, и теперь я учусь в БЛУГА!",
     image: Evgenia,
   },
 ];
@@ -52,6 +53,16 @@ const stories = [
 export const SuccessStories = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState<"left" | "right">("right");
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -70,20 +81,28 @@ export const SuccessStories = () => {
     setCurrentIndex((prev) => (prev === 0 ? stories.length - 1 : prev - 1));
   };
 
+  const goToSlide = (index: number) => {
+    setDirection(index > currentIndex ? "right" : "left");
+    setCurrentIndex(index);
+  };
+
   const variants = {
     enter: (direction: string) => ({
-      x: direction === "right" ? 1000 : -1000,
+      x: isMobile ? 0 : (direction === "right" ? 1000 : -1000),
+      y: isMobile ? (direction === "right" ? 100 : -100) : 0,
       opacity: 0,
     }),
     center: {
       x: 0,
+      y: 0,
       opacity: 1,
       transition: {
         duration: 0.5,
       },
     },
     exit: (direction: string) => ({
-      x: direction === "right" ? -1000 : 1000,
+      x: isMobile ? 0 : (direction === "right" ? -1000 : 1000),
+      y: isMobile ? (direction === "right" ? -100 : 100) : 0,
       opacity: 0,
       transition: {
         duration: 0.5,
@@ -92,28 +111,24 @@ export const SuccessStories = () => {
   };
 
   return (
-    <section
-      id="success-stories"
-      className="py-20 bg-gradient-to-b from-gray-50 to-white"
-    >
+    <section id="success-stories" className="py-12 md:py-20 bg-gradient-to-b from-gray-50 to-white">
       <div className="container mx-auto px-4 max-w-7xl">
         <motion.div
-          initial={{ opacity: 0, y: 50 }}
+          initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          className="text-center mb-16"
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-10 md:mb-16 px-2"
         >
-          <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-cyan-400">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 md:mb-6 bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-cyan-500">
             Истории успеха
           </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Наши ученики достигают невероятных высот. Вот некоторые из их
-            историй
+          <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">
+            Наши ученики достигают невероятных высот. Вот некоторые из их историй
           </p>
         </motion.div>
 
-        <div className="relative h-[500px] overflow-hidden">
+        <div className="relative h-[500px] md:h-[600px] overflow-hidden">
           <AnimatePresence custom={direction} initial={false}>
             <motion.div
               key={currentIndex}
@@ -122,87 +137,61 @@ export const SuccessStories = () => {
               initial="enter"
               animate="center"
               exit="exit"
-              className="absolute inset-0 flex flex-col md:flex-row items-center justify-center gap-12 px-8"
+              className="absolute inset-0 flex flex-col md:flex-row items-center justify-center gap-6 md:gap-12 px-4 md:px-8"
             >
-              <div className="w-full md:w-1/3 flex justify-center">
+              <div className="w-full md:w-1/3 flex justify-center order-2 md:order-1 mt-6 md:mt-0">
                 <div className="relative">
                   <img
                     src={stories[currentIndex].image}
                     alt={stories[currentIndex].name}
-                    className="w-64 h-64 md:w-80 md:h-80 rounded-full object-cover border-4 border-white shadow-2xl"
+                    className="w-48 h-48 md:w-64 md:h-64 lg:w-80 lg:h-80 rounded-full object-cover border-4 border-white shadow-xl"
                   />
-                  <div className="absolute -bottom-4 -right-4 bg-yellow-500 text-white font-bold py-2 px-4 rounded-full shadow-lg">
+                  <div className="absolute -bottom-2 -right-2 md:-bottom-4 md:-right-4 bg-yellow-500 text-white font-bold py-1 px-3 md:py-2 md:px-4 rounded-full shadow-lg text-sm md:text-base">
                     {stories[currentIndex].id}
                   </div>
                 </div>
               </div>
 
-              <div className="w-full md:w-2/3 text-center md:text-left">
-                <h3 className="text-2xl md:text-3xl font-bold mb-2 text-gray-800">
+              <div className="w-full md:w-2/3 text-center md:text-left order-1 md:order-2">
+                <h3 className="text-xl md:text-2xl lg:text-3xl font-bold mb-2 text-gray-800">
                   {stories[currentIndex].name}
                 </h3>
-                <p className="text-lg text-yellow-600 mb-4">
+                <p className="text-md md:text-lg text-yellow-600 mb-3 md:mb-4">
                   {stories[currentIndex].role}
                 </p>
-                <p className="text-gray-600 text-lg mb-6 max-w-2xl mx-auto md:mx-0">
+                <p className="text-gray-600 text-sm md:text-base lg:text-lg mb-4 md:mb-6 max-w-2xl mx-auto md:mx-0">
                   {stories[currentIndex].description}
                 </p>
 
-                <div className="flex justify-center md:justify-start space-x-4">
-                  <button
-                    onClick={handlePrev}
-                    className="p-3 rounded-full bg-white shadow-md hover:shadow-lg transition-all hover:bg-gray-100"
-                  >
-                    <svg
-                      className="w-6 h-6 text-gray-700"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M15 19l-7-7 7-7"
-                      ></path>
-                    </svg>
-                  </button>
-
-                  <div className="flex items-center space-x-2">
+                <div className="flex flex-col md:flex-row items-center justify-center md:justify-start space-y-4 md:space-y-0 md:space-x-4">
+                  <div className="flex space-x-2">
                     {stories.map((_, index) => (
                       <button
                         key={index}
-                        onClick={() => {
-                          setDirection(index > currentIndex ? "right" : "left");
-                          setCurrentIndex(index);
-                        }}
-                        className={`w-3 h-3 rounded-full transition-all ${
+                        onClick={() => goToSlide(index)}
+                        className={`w-2 h-2 md:w-3 md:h-3 rounded-full transition-all ${
                           currentIndex === index
-                            ? "bg-yellow-500 w-6"
+                            ? "bg-yellow-500 w-4 md:w-6"
                             : "bg-gray-300"
                         }`}
                       />
                     ))}
                   </div>
 
-                  <button
-                    onClick={handleNext}
-                    className="p-3 rounded-full bg-white shadow-md hover:shadow-lg transition-all hover:bg-gray-100"
-                  >
-                    <svg
-                      className="w-6 h-6 text-gray-700"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
+                  <div className="flex space-x-4">
+                    <button
+                      onClick={handlePrev}
+                      className="p-2 md:p-3 rounded-full bg-white shadow-md hover:shadow-lg transition-all hover:bg-gray-100"
                     >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M9 5l7 7-7 7"
-                      ></path>
-                    </svg>
-                  </button>
+                      <ChevronLeft className="w-5 h-5 md:w-6 md:h-6 text-gray-700" />
+                    </button>
+                    <button
+                      onClick={handleNext}
+                      className="p-2 md:p-3 rounded-full bg-white shadow-md hover:shadow-lg transition-all hover:bg-gray-100"
+                    >
+                      <ChevronRight className="w-5 h-5 md:w-6 md:h-6 text-gray-700" />
+                    </button>
+                  </div>
                 </div>
               </div>
             </motion.div>

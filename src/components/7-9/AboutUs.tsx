@@ -33,9 +33,7 @@ export const AboutUs = () => {
                 alt="О нашей школе" 
                 className="w-full rounded-2xl shadow-2xl"
               />
-              <div className="absolute -bottom-6 -right-6 bg-yellow-500 text-white p-6 rounded-2xl shadow-lg hidden lg:block">
-                <Award className="w-12 h-12" />
-              </div>
+             
             </motion.div>
           </div>
 
