@@ -6,30 +6,20 @@ const $Host = axios.create({
     headers: {
         'Content-Type': 'text/plain' // Важно для GAS
     },
-    baseURL: "https://script.google.com/macros/s/AKfycbx2nUAru4MdSeQF3hmPap4q616K3al1fwVhSmBKDP5gqqEwmGlSAnRmgg-l8TofR89X/exec"
+    baseURL: "https://script.google.com/macros/s/AKfycbxdLuq4UnfmF2JlRkOfYDn6pBeOVe4VqtFX0GiPlqQOMed4b7PPrFSL3yjtY42gB0iN/exec"
 });
-
-
-
-
-
-
-
-
 
 
 export const createZapis = async (
     name: string,
-    going: string,
-    food: string,
-    alcohol: string,
-    comment: string
+    email: string,
+    phone: string,
+    rate: string,
 ) => {
 
-    const payload = JSON.stringify({ name, going, food, alcohol, comment });
+    const payload = JSON.stringify({ name, email, phone, rate });
 
     const { data } = await $Host.post('', payload);
-    // const { data } = await $Host.post('', { name, going, food, alcohol, comment })
     return data
 }
 

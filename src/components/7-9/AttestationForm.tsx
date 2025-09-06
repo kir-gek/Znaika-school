@@ -1,22 +1,39 @@
 import { motion } from "framer-motion";
 import attest from "../../assets/attestat.jpg";
 import { FileText, Mail, Phone, User, Check, ArrowRight } from "react-feather";
+import { useState } from "react";
+import { createZapis } from "../../api";
 
 export const AttestationForm = () => {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [rate, setRate] = useState("");
+  const [isloading, setIsLoading] = useState(false);
+  const [isSucces, setisSucces] = useState(false);
+
+  const handleClick = async () => {
+    setIsLoading(true);
+    setisSucces(false);
+    await createZapis(name, email, phone, rate);
+    setisSucces(true);
+    setIsLoading(false);
+  };
+
   return (
-    <section 
-      id="attestation" 
+    <section
+      id="attestation"
       className="relative py-28 overflow-hidden min-h-screen flex items-center"
     >
       {/* Параллакс фон с эффектом затемнения */}
-      <div 
+      <div
         className="absolute inset-0 z-0"
         style={{
           backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url(${attest})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundAttachment: 'fixed',
-          backgroundRepeat: 'no-repeat'
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundAttachment: "fixed",
+          backgroundRepeat: "no-repeat",
         }}
       >
         {/* Анимированные частицы */}
@@ -26,26 +43,26 @@ export const AttestationForm = () => {
               key={i}
               className="absolute bg-white rounded-full"
               style={{
-                width: Math.random() * 5 + 1 + 'px',
-                height: Math.random() * 5 + 1 + 'px',
-                top: Math.random() * 100 + '%',
-                left: Math.random() * 100 + '%'
+                width: Math.random() * 5 + 1 + "px",
+                height: Math.random() * 5 + 1 + "px",
+                top: Math.random() * 100 + "%",
+                left: Math.random() * 100 + "%",
               }}
               animate={{
-                y: [0, (Math.random() * 100) - 50],
-                x: [0, (Math.random() * 100) - 50],
-                opacity: [0.2, 0.8, 0.2]
+                y: [0, Math.random() * 100 - 50],
+                x: [0, Math.random() * 100 - 50],
+                opacity: [0.2, 0.8, 0.2],
               }}
               transition={{
                 duration: Math.random() * 10 + 10,
                 repeat: Infinity,
-                repeatType: 'reverse'
+                repeatType: "reverse",
               }}
             />
           ))}
         </div>
       </div>
-      
+
       <div className="container mx-auto px-4 relative z-10">
         <motion.div
           initial={{ opacity: 0 }}
@@ -63,7 +80,7 @@ export const AttestationForm = () => {
             className="w-full lg:w-1/2"
           >
             <div className="bg-white/10 backdrop-blur-lg rounded-3xl shadow-2xl p-8 lg:p-12 border border-white/20">
-              <motion.h2 
+              <motion.h2
                 initial={{ opacity: 0 }}
                 whileInView={{ opacity: 1 }}
                 viewport={{ once: true }}
@@ -72,8 +89,8 @@ export const AttestationForm = () => {
               >
                 Получить аттестат
               </motion.h2>
-              
-              <motion.p 
+
+              <motion.p
                 initial={{ opacity: 0 }}
                 whileInView={{ opacity: 1 }}
                 viewport={{ once: true }}
@@ -85,9 +102,30 @@ export const AttestationForm = () => {
 
               <form className="space-y-6">
                 {[
-                  { icon: <User className="w-5 h-5" />, type: "text", placeholder: "Ваше имя" },
-                  { icon: <Mail className="w-5 h-5" />, type: "email", placeholder: "Ваш e-mail" },
-                  { icon: <Phone className="w-5 h-5" />, type: "tel", placeholder: "Ваш телефон" }
+                  {
+                    icon: <User className="w-5 h-5" />,
+                    type: "text",
+                    placeholder: "Ваше имя",
+                    value: name,
+                    onChange: (e: React.ChangeEvent<HTMLInputElement>) =>
+                      setName(e.target.value),
+                  },
+                  {
+                    icon: <Mail className="w-5 h-5" />,
+                    type: "email",
+                    placeholder: "Ваш e-mail",
+                    value: email,
+                    onChange: (e: React.ChangeEvent<HTMLInputElement>) =>
+                      setEmail(e.target.value),
+                  },
+                  {
+                    icon: <Phone className="w-5 h-5" />,
+                    type: "tel",
+                    placeholder: "Ваш телефон",
+                    value: phone,
+                    onChange: (e: React.ChangeEvent<HTMLInputElement>) =>
+                      setPhone(e.target.value),
+                  },
                 ].map((field, i) => (
                   <motion.div
                     key={i}
@@ -103,6 +141,8 @@ export const AttestationForm = () => {
                     <input
                       type={field.type}
                       placeholder={field.placeholder}
+                      value={field.value}
+                      onChange={field.onChange}
                       className="w-full pl-12 pr-4 py-4 bg-white/10 border border-white/20 rounded-xl focus:border-blue-400 focus:ring-2 focus:ring-blue-400/30 outline-none text-white placeholder-white/50 transition-all"
                     />
                   </motion.div>
@@ -118,7 +158,11 @@ export const AttestationForm = () => {
                   <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-white/70">
                     <FileText className="w-5 h-5" />
                   </div>
-                  <select className="w-full pl-12 pr-4 py-4 bg-white/10 border border-white/20 rounded-xl focus:border-blue-400 focus:ring-2 focus:ring-blue-400/30 outline-none text-white appearance-none transition-all">
+                  <select
+                    value={rate}
+                    onChange={(e) => setRate(e.target.value)}
+                    className="w-full pl-12 pr-4 py-4 bg-white/10 border border-white/20 rounded-xl focus:border-blue-400 focus:ring-2 focus:ring-blue-400/30 outline-none text-white appearance-none transition-all"
+                  >
                     <option className="bg-gray-800">Выберите тариф</option>
                     <option className="bg-gray-800">Стандарт</option>
                     <option className="bg-gray-800">Премиум</option>
@@ -134,14 +178,21 @@ export const AttestationForm = () => {
                   whileHover={{ scale: 1.03 }}
                   whileTap={{ scale: 0.98 }}
                   type="submit"
+                  onClick={() => handleClick()}
                   className="w-full group flex items-center justify-center gap-2 bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-bold py-5 px-6 rounded-xl shadow-lg hover:shadow-xl transition-all"
                 >
                   <span>Отправить заявку</span>
                   <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </motion.button>
+                {isloading && <p>Данные отправляются</p>}
+                {isSucces && (
+                  <p className="text-green-600 mt-2">
+                    Спасибо, наш специалист скоро с вами свяжется
+                  </p>
+                )}
               </form>
 
-              <motion.p 
+              <motion.p
                 initial={{ opacity: 0 }}
                 whileInView={{ opacity: 1 }}
                 viewport={{ once: true }}
@@ -161,7 +212,7 @@ export const AttestationForm = () => {
             transition={{ delay: 0.3, duration: 0.8 }}
             className="w-full lg:w-1/2 text-center lg:text-left"
           >
-            <motion.h3 
+            <motion.h3
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
@@ -172,7 +223,7 @@ export const AttestationForm = () => {
                 Наши преимущества
               </span>
             </motion.h3>
-            
+
             <ul className="space-y-8">
               {[
                 "Официальные документы государственного образца",
@@ -180,7 +231,7 @@ export const AttestationForm = () => {
                 "Гибкие условия оплаты и рассрочка",
                 "Персональный куратор для каждого",
                 "Ускоренное обучение по индивидуальному плану",
-                "Гарантированное получение аттестата"
+                "Гарантированное получение аттестата",
               ].map((item, i) => (
                 <motion.li
                   key={i}
@@ -197,8 +248,6 @@ export const AttestationForm = () => {
                 </motion.li>
               ))}
             </ul>
-
-          
           </motion.div>
         </motion.div>
       </div>
